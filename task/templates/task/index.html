@@ -1,4 +1,4 @@
-{% extends "payment/base.html" %}
+{% extends "task/base.html" %}
 {% block content %}
 	<div class="col-6 mx-auto">
 		<div class="text-center mt-5">
@@ -7,14 +7,6 @@
 		</div>
 		<form method="post">
 			{% csrf_token %}
-			<div class="form-group">
-				<label for="exampleInputEmail1">Enter Name</label>
-				<input type="name" name="name" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter Name">
-			</div>
-			<div class="form-group">
-				<label for="exampleInputPassword1">Enter Amount</label>
-				<input type="number" name="amount" class="form-control" id="exampleInputPassword1" placeholder="Amount">
-			</div>
 			<button type="submit" class="btn btn-success btn-block">Submit</button>
 		</form>
 	</div>

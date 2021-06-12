@@ -18,7 +18,6 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from tutorial import views as auth_views
-from task import views as task_views
 
 urlpatterns = [
     path('', auth_views.home, name='home'),
@@ -26,8 +25,8 @@ urlpatterns = [
     path('signout', auth_views.sign_out, name='signout'),
     path('callback', auth_views.callback, name='callback'),
     path('admin/', admin.site.urls),
-    path('place_order/',task_views.place_order, name='place_order'),
-    path('pay/',include('payment.urls'), name = 'pay')
+    path('place_order/',include('task.urls')),
+    
 ]
 
 if settings.DEBUG:
