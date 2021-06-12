@@ -5,7 +5,9 @@
   {% if user.is_authenticated %}
     <div class="jumbotron">
       <h4>Welcome {{ user.name }}!</h4><br>
+      <a href="{% url 'place_order' %}" class="btn btn-primary btn-large">Place an order</a>
     </div>
+    
     <!-- <p>Use the navigation bar at the top of the page to get started.</p> -->
     {% for order in orders %}
       <article class="media content-section">
@@ -15,7 +17,7 @@
             <!-- <small class="text-muted">{{ post.date_posted }}</small> -->
           </div>
           <!-- <h2><a class="article-title" href="#">{{ post.title }}</a></h2> -->
-          <p class="article-content">PDF : {{ order.pdf }} <br>
+          <p class="article-content">PDF : {{ order.docfile.name }} <br>
             Booked on : {{ order.date_ordered }}<br>
             Payment Status: {{ order.payment_status }}<br>
             Printing Status : {{ order.printing_status }}<br>
@@ -30,3 +32,4 @@
     </div>
   {% endif %}
 {% endblock %}
+

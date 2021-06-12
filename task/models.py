@@ -5,7 +5,7 @@ from django.utils import timezone
 
 class Order(models.Model):
 	customer = models.CharField(max_length = 100)
-	docfile = models.FileField(default = 'blank.pdf', upload_to = 'order_pdf')
+	docfile = models.FileField(default = 'blank.pdf', upload_to = '')
 	date_ordered = models.DateTimeField(default = timezone.now)
 	payment_status = models.BooleanField(default = False)
 	printing_status = models.BooleanField(default = False)
