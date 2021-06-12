@@ -27,7 +27,7 @@ urlpatterns = [
     path('callback', auth_views.callback, name='callback'),
     path('admin/', admin.site.urls),
     path('place_order/',task_views.place_order, name='place_order'),
-    path('pay/',include('payment.urls'))
+    path('pay/',include('payment.urls'), name = 'pay')
 ]
 
 if settings.DEBUG:

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-
+from django.contrib import messages
 import razorpay
 
 from .models import Coffee
@@ -33,4 +33,5 @@ def success(request):
 		print("user ",user)
 		user.paid = True
 		user.save()
+		messages.success(request,f'Your order has been placed.')
 	return render(request, 'payment/success.html')

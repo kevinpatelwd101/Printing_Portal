@@ -9,6 +9,10 @@ class Order(models.Model):
 	date_ordered = models.DateTimeField(default = timezone.now)
 	payment_status = models.BooleanField(default = False)
 	printing_status = models.BooleanField(default = False)
+	starting_page = models.IntegerField(default = 1)
+	ending_page = models.IntegerField(default = 1)
+	no_of_copies = models.IntegerField(default = 1)
+	black_and_white = models.BooleanField(default = True)
 	cost = models.IntegerField(default = 0)
 
 	def __str__(self):
