@@ -15,8 +15,9 @@ def place_order(request):
     if request.method == 'POST':
         form = PlaceOrderForm(request.POST, request.FILES)
         if form.is_valid():
-            # print(request.session['user'])
+            print(request.session['user'])
             username = request.session['user']['name']
+            # print("main yahan tum kahan ",request.session['user'])
             email = request.session['user']['email']
             starting_page = form.cleaned_data.get('starting_page')
             ending_page = form.cleaned_data.get('ending_page')

@@ -17,7 +17,8 @@
             <!-- <small class="text-muted">{{ post.date_posted }}</small> -->
           </div>
           <!-- <h2><a class="article-title" href="#">{{ post.title }}</a></h2> -->
-          <p class="article-content">PDF : {{ order.docfile.name }} <br>
+          <p class="article-content">
+            PDF :<a href="/media/{{ order.docfile }}" download>  {{ order.docfile.name }}</a> <br>
             Booked on : {{ order.date_ordered }}<br>
             Payment Status: {{ order.payment_status }}<br>
             Printing Status : {{ order.printing_status }}<br>
