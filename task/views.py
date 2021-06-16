@@ -13,6 +13,8 @@ import random
 from PyPDF2 import PdfFileMerger
 from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
+from reportlab.pdfgen import canvas 
+from reportlab.pdfbase import pdfmetrics
 import os
 
 def customer(request):
@@ -31,15 +33,16 @@ def place_order(request):
     if request.method == 'POST':
         form = PlaceOrderForm(request.POST, request.FILES)
         if form.is_valid():
-            print(request.session['user'])
             customer_name = request.session['user']['name']
-            # print("main yahan tum kahan ",request.session['user'])
             customer_email = request.session['user']['email']
+            
             starting_page = form.cleaned_data.get('starting_page')
             ending_page = form.cleaned_data.get('ending_page')
             no_of_copies = form.cleaned_data.get('no_of_copies')
             black_and_white = form.cleaned_data.get('black_and_white')
             otp = random.randint(1000,10000)
+            
+            #calculating cost
             num_pages = ending_page-starting_page+1
             price_black_and_white = 1
             price_color = 5
@@ -49,17 +52,32 @@ def place_order(request):
             else:
                 cost = num_pages*price_color
                 cost = cost*no_of_copies
-            files = request.FILES.getlist('docfile')
-            print(type(files))
-            print(files)
-            merger = PdfFileMerger()
+
+            #creating extra pdf having name and email
             os.chdir(settings.MEDIA_ROOT)
+            extrahash = random.randint(10000,100000)
+            fileName = str(extrahash)+'temporary.pdf'
+            title = customer_name
+            subTitle = customer_email
+            pdf = canvas.Canvas(fileName)
+            pdf.setFont("Courier-Bold", 36)
+            pdf.drawCentredString(300, 590, title)
+            pdf.setFont("Courier-Bold", 24)
+            pdf.drawCentredString(290,500, subTitle)
+            pdf.save()
+
+            # pdf merging
+            files = request.FILES.getlist('docfile')
+            merger = PdfFileMerger()
             for items in files:
                 merger.append(items)
             pdfname = random.randint(10000,100000)
             newfile_name = customer_email + str(pdfname) + '.pdf'
+            merger.append(fileName)
             merger.write(newfile_name)
             merger.close
+            
+
             neworder = Order(customer_name = customer_name, customer_email = customer_email, otp = otp, docfile = newfile_name, 
                 starting_page = starting_page, ending_page = ending_page, no_of_copies = no_of_copies,
                  black_and_white=black_and_white, cost = cost )
@@ -90,7 +108,6 @@ def gateway(request):
         order.payment_id = payment['id']
         order.save()
         return render(request,'task/index.html',{'payment':payment})
-
     return render(request,'task/index.html')
 
 @csrf_exempt
