@@ -10,3 +10,6 @@ class PlaceOrderForm(forms.Form):
     class Meta:
         model = Order
         fields = ['docfile', 'starting_page', 'ending_page', 'no_of_copies', 'black_and_white']
+
+class otpForm(forms.Form):
+    otp = forms.IntegerField()

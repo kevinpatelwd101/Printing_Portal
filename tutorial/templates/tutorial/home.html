@@ -1,36 +1,24 @@
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+
+<!-- <HomeSnippet> -->
 {% extends "tutorial/layout.html" %}
 {% block content %}
-  <!-- <h1>Printing Portal</h1> -->
-  <!-- <p class="lead">Printing Portal</p> -->
+<div class="jumbotron">
+  <h1>Printing Portal</h1>
+  <p class="lead">This sample app shows how to use the Microsoft Graph API to access a user's data from Python</p>
   {% if user.is_authenticated %}
-    <div class="jumbotron">
-      <h4>Welcome {{ user.name }}!</h4><br>
-      <a href="{% url 'place_order' %}" class="btn btn-primary btn-large">Place an order</a>
-    </div>
-    
+    <h4>Welcome {{ user.name }}!</h4>
+    {% if user.is_shopkeeper %}
+      <a href="{% url 'shopkeeper-orders' %}" class="btn btn-primary btn-large">Click here to view received oders.<br></a>
+    {% else %}
+      <a href="{% url 'place_order' %}" class="btn btn-primary btn-large">Click here to place New orders.<br></a>
+      <a href="{% url 'customer-orders' %}" class="btn btn-primary btn-large">View Old Transaction Status.<br></a>
+    {% endif %}
     <!-- <p>Use the navigation bar at the top of the page to get started.</p> -->
-    {% for order in orders %}
-      <article class="media content-section">
-        <div class="media-body">
-          <div class="article-metadata">
-            <h2><a class="mr-2" href="#">{{ order.customer }}</a></h2>
-            <!-- <small class="text-muted">{{ post.date_posted }}</small> -->
-          </div>
-          <!-- <h2><a class="article-title" href="#">{{ post.title }}</a></h2> -->
-          <p class="article-content">
-            PDF :<a href="/media/{{ order.docfile }}" download>  {{ order.docfile.name }}</a> <br>
-            Booked on : {{ order.date_ordered }}<br>
-            Payment Status: {{ order.payment_status }}<br>
-            Printing Status : {{ order.printing_status }}<br>
-            Cost : {{ order.cost }}
-          </p>
-        </div>
-      </article>
-    {% endfor %}
   {% else %}
-    <div class="jumbotron">
-      <a href="{% url 'signin' %}" class="btn btn-primary btn-large">Click here to sign in</a>
-    </div>
+    <a href="{% url 'signin' %}" class="btn btn-primary btn-large">Click here to sign in</a>
   {% endif %}
+</div>
 {% endblock %}
-
+<!-- </HomeSnippet> -->

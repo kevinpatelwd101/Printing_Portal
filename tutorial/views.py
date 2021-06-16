@@ -12,7 +12,6 @@ def home(request):
 
   return render(request, 'tutorial/home.html', context)
 
-
 def initialize_context(request):
   context = {}
   context['orders'] = Order.objects.all()
