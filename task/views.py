@@ -10,8 +10,10 @@ from .forms import otpForm
 from django.views.generic import UpdateView
 import razorpay
 import random
-
+from PyPDF2 import PdfFileMerger
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
+import os
 
 def customer(request):
     email = request.session['user']['email']
@@ -47,7 +49,18 @@ def place_order(request):
             else:
                 cost = num_pages*price_color
                 cost = cost*no_of_copies
-            neworder = Order(customer_name = customer_name, customer_email = customer_email, otp = otp, docfile = request.FILES['docfile'], 
+            files = request.FILES.getlist('docfile')
+            print(type(files))
+            print(files)
+            merger = PdfFileMerger()
+            os.chdir(settings.MEDIA_ROOT)
+            for items in files:
+                merger.append(items)
+            pdfname = random.randint(10000,100000)
+            newfile_name = customer_email + str(pdfname) + '.pdf'
+            merger.write(newfile_name)
+            merger.close
+            neworder = Order(customer_name = customer_name, customer_email = customer_email, otp = otp, docfile = newfile_name, 
                 starting_page = starting_page, ending_page = ending_page, no_of_copies = no_of_copies,
                  black_and_white=black_and_white, cost = cost )
             neworder.save()
@@ -74,7 +87,6 @@ def gateway(request):
         cost = order.cost*100
         client = razorpay.Client(auth = ("rzp_test_aBF0M5yvtP4PDr", "lPodFzCQ4YXDa9l8XfYCfgB3"))
         payment = client.order.create({'amount':cost, 'currency': 'INR', 'payment_capture':'1'})
-        # print(payment)
         order.payment_id = payment['id']
         order.save()
         return render(request,'task/index.html',{'payment':payment})

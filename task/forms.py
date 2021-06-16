@@ -2,7 +2,7 @@ from django import forms
 from .models import Order
 
 class PlaceOrderForm(forms.Form):
-    docfile = forms.FileField( label='Select a file', help_text='max. 42 megabytes')
+    docfile = forms.FileField( label='Select files', help_text='max. 42 megabytes',widget=forms.ClearableFileInput(attrs={'multiple': True}))
     starting_page = forms.IntegerField()
     ending_page = forms.IntegerField()
     no_of_copies = forms.IntegerField()
