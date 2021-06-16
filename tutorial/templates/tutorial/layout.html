@@ -27,18 +27,13 @@
                 </li>
               </ul>
               <ul class="navbar-nav justify-content-end">
-                <li class="nav-item">
-                  <a class="nav-link external-link" href="https://developer.microsoft.com/graph/docs/concepts/overview" target="_blank">
-                    <i class="ms-Icon ms-Icon--NavigateExternalInline mr-1" aria-hidden="true"></i>Docs
-                  </a>
-                </li>
                 {% if user.is_authenticated %}
                   <li class="nav-item dropdown">
                     <a class="nav-link avatar-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
                       {% if user.avatar %}
                         <img src="{{ user.avatar }}" class="rounded-circle align-self-center mr-2" style="width: 32px;">
                       {% else %}
-                        <img src="{% static 'tutorial/no-profile-photo.png' %}" class="rounded-circle align-self-center mr-2" style="width: 32px;">
+                        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/1/12/IIT_Guwahati_Logo.svg/220px-IIT_Guwahati_Logo.svg.png" class="rounded-circle align-self-center mr-2" style="width: 32px;">
                       {% endif %}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">

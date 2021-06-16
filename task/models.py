@@ -11,10 +11,8 @@ class Order(models.Model):
 
 	# doc info(files, pages to be printed, black/white or colour, etc)
 	docfile = models.FileField(default = 'blank.pdf', upload_to = '')
-	starting_page = models.IntegerField(default = 1)
-	ending_page = models.IntegerField(default = 1)
 	no_of_copies = models.IntegerField(default = 1)
-	black_and_white = models.BooleanField(default = True)
+	black_and_white = models.BooleanField(default = True, blank = True)
 	
 	# order details
 	cost = models.IntegerField(default = 1)

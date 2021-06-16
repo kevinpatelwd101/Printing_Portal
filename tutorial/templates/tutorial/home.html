@@ -6,9 +6,8 @@
 {% block content %}
 <div class="jumbotron">
   <h1>Printing Portal</h1>
-  <p class="lead">This sample app shows how to use the Microsoft Graph API to access a user's data from Python</p>
-  {% if user.is_authenticated %}
-    <h4>Welcome {{ user.name }}!</h4>
+  {% if user.is_authenticated %}<br>
+    <h4>Welcome {{ user.name }}!</h4><br>
     {% if user.is_shopkeeper %}
       <a href="{% url 'shopkeeper-orders' %}" class="btn btn-primary btn-large">Click here to view received oders.<br></a>
     {% else %}

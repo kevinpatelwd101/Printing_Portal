@@ -36,22 +36,9 @@ def place_order(request):
             customer_name = request.session['user']['name']
             customer_email = request.session['user']['email']
             
-            starting_page = form.cleaned_data.get('starting_page')
-            ending_page = form.cleaned_data.get('ending_page')
             no_of_copies = form.cleaned_data.get('no_of_copies')
             black_and_white = form.cleaned_data.get('black_and_white')
             otp = random.randint(1000,10000)
-            
-            #calculating cost
-            num_pages = ending_page-starting_page+1
-            price_black_and_white = 1
-            price_color = 5
-            if black_and_white:
-                cost = num_pages*price_black_and_white
-                cost = cost*no_of_copies
-            else:
-                cost = num_pages*price_color
-                cost = cost*no_of_copies
 
             #creating extra pdf having name and email
             os.chdir(settings.MEDIA_ROOT)
@@ -75,12 +62,21 @@ def place_order(request):
             newfile_name = customer_email + str(pdfname) + '.pdf'
             merger.append(fileName)
             merger.write(newfile_name)
+            num_pages = len(merger.pages)
             merger.close
-            
 
-            neworder = Order(customer_name = customer_name, customer_email = customer_email, otp = otp, docfile = newfile_name, 
-                starting_page = starting_page, ending_page = ending_page, no_of_copies = no_of_copies,
-                 black_and_white=black_and_white, cost = cost )
+            #calculating cost
+            price_black_and_white = 1
+            price_color = 5
+            if black_and_white:
+                cost = num_pages*price_black_and_white
+            else:
+                cost = num_pages*price_color
+            cost = cost*no_of_copies
+
+            neworder = Order(customer_name = customer_name, customer_email = customer_email, otp = otp, 
+                docfile = newfile_name,  no_of_copies = no_of_copies, black_and_white=black_and_white, 
+                cost = cost)
             neworder.save()
             return HttpResponseRedirect(reverse('gateway'))
     else : 
