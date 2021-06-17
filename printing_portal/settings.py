@@ -24,7 +24,7 @@ SECRET_KEY = 'django-insecure-)2$)6b24#0(tg(1#0ljaf7a%s_cr9i8$j@l+v#d9-li#1b48hb
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
+CRISPY_FAIL_SILENTLY = not DEBUG 
 ALLOWED_HOSTS = []
 
 
@@ -123,6 +123,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

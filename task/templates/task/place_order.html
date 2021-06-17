@@ -1,5 +1,4 @@
 {% extends "tutorial/layout.html" %}
-{% load crispy_forms_tags %}
 {% block content %}
 	<!-- <h1>Printing Portal</h1> -->
 	<!-- <p class="lead">Printing Portal</p> -->
@@ -9,7 +8,12 @@
 				{% csrf_token %}
 				<fieldset class="form-group">
 					<legend class="border-bottom mb-4">Place Order</legend>
-					{{ form|crispy }}
+					{{form.non_field_errors}}
+					{% for field in form %}
+					<div>
+						{{field.label_tag}} {{field}} {{field.errors|striptags}}
+					</div>
+					{% endfor %}
 				</fieldset>
 				<div class="form-group">
 					<button class="btn btn-outline-info" type="submit">Go for payments</button>
