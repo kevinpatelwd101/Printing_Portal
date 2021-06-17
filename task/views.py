@@ -55,6 +55,10 @@ def place_order(request):
 
             # pdf merging
             files = request.FILES.getlist('docfile')
+            for file in files :
+                if not file.name.endswith(".pdf"):
+                    messages.warning(request,f'Uploading non PDF file is not allowed')
+                    return HttpResponseRedirect(reverse('home'))  
             merger = PdfFileMerger()
             for items in files:
                 merger.append(items)

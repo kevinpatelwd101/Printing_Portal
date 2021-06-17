@@ -8,7 +8,7 @@ TRUE_FALSE_CHOICES = (
 )
 
 class PlaceOrderForm(forms.Form):
-    docfile = forms.FileField( label='Select files', help_text='max. 42 megabytes',widget=forms.ClearableFileInput(attrs={'multiple': True}),validators=[FileExtensionValidator(allowed_extensions=['pdf'])])
+    docfile = forms.FileField( label='Select files', help_text='max. 42 megabytes',widget=forms.ClearableFileInput(attrs={'multiple': True}))
     no_of_copies = forms.IntegerField()
     black_and_white = forms.ChoiceField(choices = TRUE_FALSE_CHOICES, label="Print Type", 
                             initial='', widget=forms.Select(), required=True)
