@@ -19,14 +19,14 @@ import os
 
 def customer(request):
     email = request.session['user']['email']
-    all_entries = Order.objects.filter(customer_email = email , collected_status= False)
+    all_entries = Order.objects.filter(customer_email = email)
     return render(request, 'task/c_display.html', {'all_entries' : all_entries})
 
 # quering into the database to find out the orders reamining to be printed by the shopkeeper
 def shopkeeper(request):
        form = otpForm()
        email = request.session['user']['email']
-       all_entries = Order.objects.filter(collected_status = False)
+       all_entries = Order.objects.filter(payment_status = True, collected_status = False)
        return render(request, 'task/display.html', {'all_entries':all_entries ,'form' :form})
 
 def place_order(request):
@@ -43,7 +43,7 @@ def place_order(request):
             #creating extra pdf having name and email
             os.chdir(settings.MEDIA_ROOT)
             extrahash = random.randint(10000,100000)
-            fileName = str(extrahash)+'temporary.pdf'
+            fileName = str(extrahash)+ customer_email + '.pdf'
             title = customer_name
             subTitle = customer_email
             pdf = canvas.Canvas(fileName)
@@ -76,7 +76,7 @@ def place_order(request):
 
             neworder = Order(customer_name = customer_name, customer_email = customer_email, otp = otp, 
                 docfile = newfile_name,  no_of_copies = no_of_copies, black_and_white=black_and_white, 
-                cost = cost)
+                cost = cost, extra_file_name = fileName)
             neworder.save()
             return HttpResponseRedirect(reverse('gateway'))
     else : 
@@ -142,6 +142,8 @@ def status_change(request,path):
     transaction = Order.objects.filter(payment_id = path)
     transaction.printing_status = True
     transaction.update(printing_status= True)
+    print(type(transaction))
+    messages.success(request,f'We will inform {transaction.last().customer_name} that documents have been printed.')
     return redirect('shopkeeper-orders')
 
 def validator(request,path):
@@ -153,6 +155,11 @@ def validator(request,path):
            tras = Order.objects.filter(payment_id=path)
            if transaction.otp == otp:
                  tras.update(collected_status=True)
+                 os.chdir(settings.MEDIA_ROOT)
+                 os.remove(transaction.docfile.name)
+                 os.remove(transaction.extra_file_name)
+                 messages.success(request,f'{transaction.customer_name} have collected his documents.')
                  return redirect('shopkeeper-orders')
            else :
+               messages.warning(request,f'Wrong OTP entered.')
                return redirect('shopkeeper-orders')

@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from django.core.validators import FileExtensionValidator
 
 class Order(models.Model):
 	# customer info
@@ -8,6 +9,7 @@ class Order(models.Model):
 	customer_email = models.CharField(default = 'hello@iitg.ac.in', max_length = 100)
 	otp = models.IntegerField(default = -1)
 	collected_status = models.BooleanField(default = False)
+	extra_file_name = models.CharField(default = 'extra.pdf', max_length = 100)
 
 	# doc info(files, pages to be printed, black/white or colour, etc)
 	docfile = models.FileField(default = 'blank.pdf', upload_to = '')
