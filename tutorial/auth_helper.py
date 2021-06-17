@@ -53,6 +53,9 @@ def get_token_from_code(request):
 
 def store_user(request, user):
   try:
+    if '@iitg.ac.in' not in user['mail']:
+      remove_user_and_token(request)
+      return HttpResponseRedirect(reverse('home'))
     request.session['user'] = {
       'is_authenticated': True,
       'name': user['displayName'],
@@ -60,7 +63,6 @@ def store_user(request, user):
       'timeZone': user['mailboxSettings']['timeZone'],
       'is_shopkeeper': True if(user['mail'] == 'aaagrahari@iitg.ac.in') else False,
     }
-    print(request.session['user'])
   except Exception as e:
     print(e)
 

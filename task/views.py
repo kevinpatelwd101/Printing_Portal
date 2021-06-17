@@ -83,10 +83,6 @@ def place_order(request):
         form = PlaceOrderForm()
         key = 'user'
         if key in request.session:
-            transaction = Order.objects.get(customer_email = request.session['user']['email'] ,payment_status = False)
-            os.chdir(settings.MEDIA_ROOT)
-            os.remove(transaction.docfile.name)
-            os.remove(transaction.extra_file_name)
             return render(request,'task/place_order.html',{'form':form, 'user': request.session[key]}) 
         else:
             return redirect('home')
