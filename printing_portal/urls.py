@@ -20,12 +20,12 @@ from django.conf.urls.static import static
 from tutorial import views as auth_views
 
 urlpatterns = [
-    path('', auth_views.home, name='home'),
-    path('signin', auth_views.sign_in, name='signin'),
-    path('signout', auth_views.sign_out, name='signout'),
+    path('printing_portal/', auth_views.home, name='home'),
+    path('printing_portal/signin', auth_views.sign_in, name='signin'),
+    path('printing_portal/signout', auth_views.sign_out, name='signout'),
     path('callback', auth_views.callback, name='callback'),
-    path('admin/', admin.site.urls),
-    path('place_order/',include('task.urls')),
+    path('printing_portal/admin/', admin.site.urls),
+    path('printing_portal/place_order/',include('task.urls')),
     
 ]
 

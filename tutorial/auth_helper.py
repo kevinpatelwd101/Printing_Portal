@@ -61,7 +61,7 @@ def store_user(request, user):
       'name': user['displayName'],
       'email': user['mail'] if (user['mail'] != None) else user['userPrincipalName'],
       'timeZone': user['mailboxSettings']['timeZone'],
-      'is_shopkeeper': True if(user['mail'] == 'aaagrahari@iitg.ac.in') else False,
+      'is_shopkeeper': True if(user['mail'] == 'aagrahari@iitg.ac.in') else False,
     }
   except Exception as e:
     print(e)
