@@ -91,13 +91,6 @@ def place_order(request):
         else:
             return redirect('home')
 
-
-class OrderUpdateView(UpdateView):
-    model = Order
-    fields = ['printing_status']
-
-
-
 def gateway(request):
     if request.method== "POST":
         email = request.session['user']['email']
@@ -131,16 +124,17 @@ def success(request):
 # but for update it expects name to be <app>/<model>_form.html 
 # because it shares the template with create view
 
-
-
 def download(request, path):
     file_path = path
+    os.chdir(settings.MEDIA_ROOT)
     if os.path.exists(file_path):
         with open(file_path, 'rb') as fh:
             response = HttpResponse(fh.read(), content_type="application/force-download")
             response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
             return response
-    raise Http404
+    else :
+        messages.warning(request,f'Document not found.')
+        return redirect('home')
     
 def status_change(request,path):
     transaction = Order.objects.filter(payment_id = path)
@@ -160,8 +154,10 @@ def validator(request,path):
            if transaction.otp == otp:
                  tras.update(collected_status=True)
                  os.chdir(settings.MEDIA_ROOT)
-                 os.remove(transaction.docfile.name)
-                 os.remove(transaction.extra_file_name)
+                 if os.path.exists(transaction.docfile.name):
+                    os.remove(transaction.docfile.name)
+                 if os.path.exists(transaction.extra_file_name):
+                    os.remove(transaction.extra_file_name)
                  messages.success(request,f'{transaction.customer_name} have collected his documents.')
                  return redirect('shopkeeper-orders')
            else :

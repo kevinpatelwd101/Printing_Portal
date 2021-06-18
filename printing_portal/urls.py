@@ -23,7 +23,7 @@ urlpatterns = [
     path('printing_portal/', auth_views.home, name='home'),
     path('printing_portal/signin', auth_views.sign_in, name='signin'),
     path('printing_portal/signout', auth_views.sign_out, name='signout'),
-    path('callback', auth_views.callback, name='callback'),
+    path('printing_portal/callback', auth_views.callback, name='callback'),
     path('printing_portal/admin/', admin.site.urls),
     path('printing_portal/place_order/',include('task.urls')),
     
@@ -31,3 +31,4 @@ urlpatterns = [
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
