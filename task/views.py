@@ -35,6 +35,11 @@ def place_order(request):
         if form.is_valid():
             customer_name = request.session['user']['name']
             customer_email = request.session['user']['email']
+            files = request.FILES.getlist('docfile')
+            for file in files :
+                if not file.name.endswith(".pdf"):
+                    messages.warning(request,f'Uploading non PDF file is not allowed')
+                    return HttpResponseRedirect(reverse('home'))  
             
             no_of_copies = form.cleaned_data.get('no_of_copies')
             black_and_white = form.cleaned_data.get('black_and_white')
@@ -54,11 +59,6 @@ def place_order(request):
             pdf.save()
 
             # pdf merging
-            files = request.FILES.getlist('docfile')
-            for file in files :
-                if not file.name.endswith(".pdf"):
-                    messages.warning(request,f'Uploading non PDF file is not allowed')
-                    return HttpResponseRedirect(reverse('home'))  
             merger = PdfFileMerger()
             for items in files:
                 merger.append(items)
