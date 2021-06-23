@@ -10,6 +10,7 @@ urlpatterns = [
     path('pay/success/',views.success, name = 'success'),
     path('corders', views.customer, name='customer-orders'),
     path('orders', views.shopkeeper, name='shopkeeper-orders'),
+    
     url(r'^download/(?P<path>.*)$',views.download, name = 'download'),
     url(r'^change/(?P<path>.*)$',views.status_change,name = 'change'),
     url(r'^valid/(?P<path>.*)$',views.validator,name = 'valid'),

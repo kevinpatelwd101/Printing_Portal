@@ -8,8 +8,6 @@ class Order(models.Model):
 	customer_name = models.CharField(max_length = 100)
 	customer_email = models.CharField(default = 'hello@iitg.ac.in', max_length = 100)
 	otp = models.IntegerField(default = -1)
-	collected_status = models.BooleanField(default = False)
-	extra_file_name = models.CharField(default = 'extra.pdf', max_length = 100)
 
 	# doc info(files, pages to be printed, black/white or colour, etc)
 	docfile = models.FileField(default = 'blank.pdf', upload_to = '')
@@ -20,6 +18,7 @@ class Order(models.Model):
 	cost = models.IntegerField(default = 1)
 	date_ordered = models.DateTimeField(default = timezone.now)
 	printing_status = models.BooleanField(default = False)
+	collected_status = models.BooleanField(default = False)
 
 	#payment details
 	payment_id = models.CharField(default = '0000000000', max_length=100)
@@ -28,5 +27,3 @@ class Order(models.Model):
 	def __str__(self):
 			return self.customer_name
 
-	def get_absolute_url(self):
-		return reverse('home')

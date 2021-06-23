@@ -35,11 +35,21 @@ def place_order(request):
         if form.is_valid():
             customer_name = request.session['user']['name']
             customer_email = request.session['user']['email']
+
             files = request.FILES.getlist('docfile')
+            
+            if len(files) > 5:
+                messages.warning(request,f'Please upload at most 5 PDFs.')
+                return HttpResponseRedirect(reverse('place_order'))
+
+            limit = 2*1024*1024
             for file in files :
+                if file.size > limit:
+                    messages.warning(request,f'File too large. Size should not exceed 10 MB.')
+                    return HttpResponseRedirect(reverse('place_order'))
                 if not file.name.endswith(".pdf"):
                     messages.warning(request,f'Uploading non PDF file is not allowed')
-                    return HttpResponseRedirect(reverse('home'))  
+                    return HttpResponseRedirect(reverse('place_order'))  
             
             no_of_copies = form.cleaned_data.get('no_of_copies')
             black_and_white = form.cleaned_data.get('black_and_white')
@@ -47,27 +57,25 @@ def place_order(request):
 
             #creating extra pdf having name and email
             os.chdir(settings.MEDIA_ROOT)
-            extrahash = random.randint(10000,100000)
-            fileName = str(extrahash)+ customer_email + '.pdf'
-            title = customer_name
-            subTitle = customer_email
+            fileName = 'customer_detail.pdf'
             pdf = canvas.Canvas(fileName)
             pdf.setFont("Courier-Bold", 36)
-            pdf.drawCentredString(300, 590, title)
+            pdf.drawCentredString(300, 590, customer_name)
             pdf.setFont("Courier-Bold", 24)
-            pdf.drawCentredString(290,500, subTitle)
+            pdf.drawCentredString(290,500, customer_email)
             pdf.save()
 
             # pdf merging
             merger = PdfFileMerger()
-            for items in files:
-                merger.append(items)
-            pdfname = random.randint(10000,100000)
-            newfile_name = customer_email + str(pdfname) + '.pdf'
+            for file in files:
+                merger.append(file)
             merger.append(fileName)
-            merger.write(newfile_name)
+            
+            all_entries = Order.objects.filter(customer_email = customer_email)
+            newfile_name = customer_email + '-' + str(len(all_entries)) + '.pdf'
             num_pages = len(merger.pages)
-            merger.close
+            merger.write(newfile_name)
+            merger.close()
 
             #calculating cost
             price_black_and_white = 1
@@ -78,9 +86,15 @@ def place_order(request):
                 cost = num_pages*price_color
             cost = cost*no_of_copies
 
-            neworder = Order(customer_name = customer_name, customer_email = customer_email, otp = otp, 
-                docfile = newfile_name,  no_of_copies = no_of_copies, black_and_white=black_and_white, 
-                cost = cost, extra_file_name = fileName)
+            neworder = Order(
+                customer_name = customer_name, 
+                customer_email = customer_email, 
+                otp = otp, 
+                docfile = newfile_name,  
+                no_of_copies = no_of_copies, 
+                black_and_white=black_and_white, 
+                cost = cost
+            )
             neworder.save()
             return HttpResponseRedirect(reverse('gateway'))
     else : 
@@ -134,32 +148,35 @@ def download(request, path):
             return response
     else :
         messages.warning(request,f'Document not found.')
-        return redirect('home')
+        return redirect('shopkeeper-orders')
     
 def status_change(request,path):
-    transaction = Order.objects.filter(payment_id = path)
+    transaction = Order.objects.get(payment_id = path)
     transaction.printing_status = True
-    transaction.update(printing_status= True)
-    print(type(transaction))
-    messages.success(request,f'We will inform {transaction.last().customer_name} that documents have been printed.')
+    transaction.save()
+
+    messages.success(request,f'We will inform {transaction.customer_name} that documents have been printed.')
     return redirect('shopkeeper-orders')
 
 def validator(request,path):
     form = otpForm(request.POST)
     if form.is_valid() :
-           data = form.cleaned_data
-           otp = data['otp']
-           transaction = Order.objects.get(payment_id = path)
-           tras = Order.objects.filter(payment_id=path)
-           if transaction.otp == otp:
-                 tras.update(collected_status=True)
-                 os.chdir(settings.MEDIA_ROOT)
-                 if os.path.exists(transaction.docfile.name):
-                    os.remove(transaction.docfile.name)
-                 if os.path.exists(transaction.extra_file_name):
-                    os.remove(transaction.extra_file_name)
-                 messages.success(request,f'{transaction.customer_name} have collected his documents.')
-                 return redirect('shopkeeper-orders')
-           else :
-               messages.warning(request,f'Wrong OTP entered.')
-               return redirect('shopkeeper-orders')
+            data = form.cleaned_data
+            otp = data['otp']
+            transaction = Order.objects.get(payment_id = path)
+            tras = Order.objects.filter(payment_id=path)
+            if transaction.otp == otp:
+                transaction.collected_status=True
+                transaction.save()
+
+                os.chdir(settings.MEDIA_ROOT)
+                if os.path.exists(transaction.docfile.name):
+                   os.remove(transaction.docfile.name)
+                messages.success(request,f'{transaction.customer_name} have collected his documents.')
+                return redirect('shopkeeper-orders')
+            else :
+                messages.warning(request,f'Wrong OTP entered.')
+                return redirect('shopkeeper-orders')
+    else:
+        messages.error(request,f'An error occured! Please try again')
+        return redirect('shopkeeper_orders')
