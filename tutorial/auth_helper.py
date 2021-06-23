@@ -2,6 +2,7 @@ import yaml
 import msal
 import os
 import time
+from task import shopkeepers 
 
 # Load the oauth_settings.yml file
 stream = open('oauth_settings.yml', 'r')
@@ -51,18 +52,21 @@ def get_token_from_code(request):
 
   return result
 
+
 def store_user(request, user):
   try:
-    if '@iitg.ac.in' not in user['mail']:
-      remove_user_and_token(request)
-      return HttpResponseRedirect(reverse('home'))
+    if user['mail'] in shopkeepers.shops:
+      shopkeeper_status = True
+    else:
+      shopkeeper_status = False
     request.session['user'] = {
       'is_authenticated': True,
       'name': user['displayName'],
       'email': user['mail'] if (user['mail'] != None) else user['userPrincipalName'],
       'timeZone': user['mailboxSettings']['timeZone'],
-      'is_shopkeeper': True if(user['mail'] == 'aagrahari@iitg.ac.in') else False,
+      'is_shopkeeper': shopkeeper_status,
     }
+    print(shopkeeper_status)
   except Exception as e:
     print(e)
 

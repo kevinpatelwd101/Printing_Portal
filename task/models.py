@@ -9,6 +9,10 @@ class Order(models.Model):
 	customer_email = models.CharField(default = 'hello@iitg.ac.in', max_length = 100)
 	otp = models.IntegerField(default = -1)
 
+	# shopkeeper info
+	shopkeeper_email = models.EmailField(default='shopkeeper@iitg.ac.in')
+	shopkeeper_location = models.CharField(max_length=100,default='library')
+
 	# doc info(files, pages to be printed, black/white or colour, etc)
 	docfile = models.FileField(default = 'blank.pdf', upload_to = '')
 	no_of_copies = models.IntegerField(default = 1)

@@ -16,6 +16,8 @@ from django.conf import settings
 from reportlab.pdfgen import canvas 
 from reportlab.pdfbase import pdfmetrics
 import os
+import json
+from . import shopkeepers 
 
 def customer(request):
     email = request.session['user']['email']
@@ -33,6 +35,8 @@ def place_order(request):
     if request.method == 'POST':
         form = PlaceOrderForm(request.POST, request.FILES)
         if form.is_valid():
+            print(shopkeepers.shops)
+            shops = shopkeepers.shops
             customer_name = request.session['user']['name']
             customer_email = request.session['user']['email']
 
@@ -50,7 +54,12 @@ def place_order(request):
                 if not file.name.endswith(".pdf"):
                     messages.warning(request,f'Uploading non PDF file is not allowed')
                     return HttpResponseRedirect(reverse('place_order'))  
-            
+
+            shop_email = form.cleaned_data.get('shopkeeper_email')
+            for key in shops:
+                if key == shop_email:
+                    shop_location = shops[key]
+
             no_of_copies = form.cleaned_data.get('no_of_copies')
             black_and_white = form.cleaned_data.get('black_and_white')
             otp = random.randint(1000,10000)
@@ -90,6 +99,8 @@ def place_order(request):
                 customer_name = customer_name, 
                 customer_email = customer_email, 
                 otp = otp, 
+                shopkeeper_email = shop_email,
+                shopkeeper_location = shop_location,
                 docfile = newfile_name,  
                 no_of_copies = no_of_copies, 
                 black_and_white=black_and_white, 

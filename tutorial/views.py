@@ -14,7 +14,6 @@ def home(request):
 
 def initialize_context(request):
   context = {}
-  context['orders'] = Order.objects.all()
   # Check for any errors in the session
   error = request.session.pop('flash_error', None)
   if error != None:
