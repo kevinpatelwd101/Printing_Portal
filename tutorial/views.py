@@ -10,7 +10,6 @@ from task.models import Order
 
 def home(request):
   context = initialize_context(request)
-
   return render(request, 'tutorial/home.html', context)
 
 def initialize_context(request):
@@ -18,7 +17,6 @@ def initialize_context(request):
   context['orders'] = Order.objects.all()
   # Check for any errors in the session
   error = request.session.pop('flash_error', None)
-
   if error != None:
     context['errors'] = []
     context['errors'].append(error)
@@ -48,8 +46,6 @@ def callback(request):
   # Store user
   store_user(request, user)
   return HttpResponseRedirect(reverse('home'))
-
-
 
 def sign_out(request):
   # Clear out the user and token

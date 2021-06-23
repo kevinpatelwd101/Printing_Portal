@@ -42,7 +42,7 @@ def place_order(request):
                 messages.warning(request,f'Please upload at most 5 PDFs.')
                 return HttpResponseRedirect(reverse('place_order'))
 
-            limit = 2*1024*1024
+            limit = 10*1024*1024
             for file in files :
                 if file.size > limit:
                     messages.warning(request,f'File too large. Size should not exceed 10 MB.')
@@ -97,6 +97,9 @@ def place_order(request):
             )
             neworder.save()
             return HttpResponseRedirect(reverse('gateway'))
+        else:
+            messages.error(request,f'Form enteries are invalid')
+            return redirect('home')
     else : 
         form = PlaceOrderForm()
         key = 'user'
