@@ -39,37 +39,50 @@ Also the email of shopkeeper need to be defined at place order function in views
 
 ### Signin page
 
-![Screenshot (201)](https://user-images.githubusercontent.com/62867903/122433620-07642a80-cfb4-11eb-9dc5-cfdf91291903.png)
+<!-- ![Screenshot (201)](https://user-images.githubusercontent.com/62867903/122433620-07642a80-cfb4-11eb-9dc5-cfdf91291903.png) -->
+![Screenshot (72)](https://user-images.githubusercontent.com/69042089/125435090-413ba80c-8e85-4d12-808b-8b9cb3b54629.png)
 
-![Screenshot (202)](https://user-images.githubusercontent.com/62867903/122433636-0af7b180-cfb4-11eb-9daf-79a64bfba7b1.png)
+
+<!-- ![Screenshot (202)](https://user-images.githubusercontent.com/62867903/122433636-0af7b180-cfb4-11eb-9daf-79a64bfba7b1.png) -->
+![Screenshot (71)](https://user-images.githubusercontent.com/69042089/125435064-353976d8-045b-464b-bb71-44ba61a8f5a2.png)
 
 ### Customer Page 
 
-![Screenshot (203)](https://user-images.githubusercontent.com/62867903/122433671-10ed9280-cfb4-11eb-82e4-a7b5394de637.png)
+<!-- ![Screenshot (203)](https://user-images.githubusercontent.com/62867903/122433671-10ed9280-cfb4-11eb-82e4-a7b5394de637.png) -->
+![Screenshot (73)](https://user-images.githubusercontent.com/69042089/125435093-0971652a-170c-4a1b-bdbf-65a529d11952.png)
 
 #### new order 
 
-![Screenshot (205)](https://user-images.githubusercontent.com/62867903/122433711-19de6400-cfb4-11eb-9127-5e4bb80aeee5.png)
+<!-- ![Screenshot (205)](https://user-images.githubusercontent.com/62867903/122433711-19de6400-cfb4-11eb-9127-5e4bb80aeee5.png) -->
+<!-- ![Screenshot (75)](https://user-images.githubusercontent.com/69042089/125435098-bbef7763-591b-4a00-891d-4e49d00e3495.png) -->
+![Screenshot (80)](https://user-images.githubusercontent.com/69042089/125436118-9b89335b-9246-4ac1-accf-09d1c5b1189e.png)
+
 
 #### Payment Gateway
 
-![Screenshot (206)](https://user-images.githubusercontent.com/62867903/122433749-206cdb80-cfb4-11eb-9a3e-2ce247f057be.png)
+<!-- ![Screenshot (206)](https://user-images.githubusercontent.com/62867903/122433749-206cdb80-cfb4-11eb-9a3e-2ce247f057be.png) -->
+![Screenshot (76)](https://user-images.githubusercontent.com/69042089/125435099-a042c70f-b6fb-4a4e-83fe-e3d98f31f2fe.png)
 
-![Screenshot (207)](https://user-images.githubusercontent.com/62867903/122433762-24006280-cfb4-11eb-8f78-000633e94b16.png)
+<!-- ![Screenshot (207)](https://user-images.githubusercontent.com/62867903/122433762-24006280-cfb4-11eb-8f78-000633e94b16.png) -->
+![Screenshot (77)](https://user-images.githubusercontent.com/69042089/125436472-966d2627-bcdb-4989-8e40-2431a0e45251.png)
 
 #### Old Transactions
 
-![Screenshot (208)](https://user-images.githubusercontent.com/62867903/122433768-25ca2600-cfb4-11eb-9314-ac9afcb039ff.png)
+<!-- ![Screenshot (208)](https://user-images.githubusercontent.com/62867903/122433768-25ca2600-cfb4-11eb-9314-ac9afcb039ff.png) -->
+![Screenshot (74)](https://user-images.githubusercontent.com/69042089/125435096-dce88c36-175b-4c56-9a8a-c9a77ab6d8a1.png)
 
 ### Shopkeeper Page
 
 
-![Screenshot (209)](https://user-images.githubusercontent.com/62867903/122434843-15667b00-cfb5-11eb-984b-89b571a2575b.png)
+<!-- ![Screenshot (209)](https://user-images.githubusercontent.com/62867903/122434843-15667b00-cfb5-11eb-984b-89b571a2575b.png) -->
+![Screenshot (78)](https://user-images.githubusercontent.com/69042089/125435106-5b06c955-5593-44e2-a0fd-5d3a6a3f7550.png)
 
 #### Recent Orders
 
 
-![Screenshot (210)](https://user-images.githubusercontent.com/62867903/122434855-18616b80-cfb5-11eb-883c-ced3a3dce73b.png)
+<!-- ![Screenshot (210)](https://user-images.githubusercontent.com/62867903/122434855-18616b80-cfb5-11eb-883c-ced3a3dce73b.png) -->
+![Screenshot (81)](https://user-images.githubusercontent.com/69042089/125436899-b341ef13-55b2-449c-adcd-0226b5d5129e.png)
 
 
-![Screenshot (211)](https://user-images.githubusercontent.com/62867903/122434863-1ac3c580-cfb5-11eb-9ae2-2749858ab5e9.png)
+<!-- ![Screenshot (211)](https://user-images.githubusercontent.com/62867903/122434863-1ac3c580-cfb5-11eb-9ae2-2749858ab5e9.png) -->
+![Screenshot (79)](https://user-images.githubusercontent.com/69042089/125435108-5140247f-c6a2-421b-92e6-2c7c04e16e1e.png)
