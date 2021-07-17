@@ -19,6 +19,12 @@ import os
 import json
 from . import shopkeepers 
 
+
+#for email
+import smtplib , time
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+
 def customer(request):
     email = request.session['user']['email']
     all_entries = Order.objects.filter(customer_email = email,)
@@ -166,10 +172,25 @@ def download(request, path):
     
 def status_change(request,path):
     transaction = Order.objects.get(payment_id = path)
+    # print(transaction.otp)
+
+    # for sending email to the customer.
+    s = smtplib.SMTP("smtp-mail.outlook.com",587)
+    s.starttls()
+    s.login("PrintingPortal.IITG@outlook.com","Printingdocuments@123")
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = "DOCUMENTS PRINTED!"
+    msg["From"] = "PrintingPortal.IITG@outlook.com"
+    msg["To"] = transaction.customer_email
+    text = f"HEY {transaction.customer_name}! Your documents that were uploaded to us has been printed. Kindly Collect them using this as OTP: {transaction.otp}"
+    msg.attach(MIMEText(text,"plain"))
+    s.sendmail("PrintingPortal.IITG@outlook.com",transaction.customer_email, msg.as_string())
+    s.quit()
+
     transaction.printing_status = True
     transaction.save()
 
-    messages.success(request,f'We will inform {transaction.customer_name} that documents have been printed.')
+    messages.success(request,f'The email is sent to {transaction.customer_name} that documents have been printed.')
     return redirect('shopkeeper-orders')
 
 def validator(request,path):
